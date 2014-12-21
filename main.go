@@ -21,9 +21,9 @@ var upgrader = websocket.Upgrader{
 	WriteBufferSize: 1024,
 }
 
-func getGPS(gpsChan chan []byte) {
+func getGPS(gpsChan chan *gps.Location) {
 	time.Sleep(3000 * time.Millisecond)
-	payload, _ := gps.Get("$GPRMC,194509.000,A,4042.6142,N,07400.4168,W,2.03,221.11,160412,,,A*77")
+	payload := gps.Get("$GPRMC,194509.000,A,4042.6142,N,07400.4168,W,2.03,221.11,160412,,,A*77")
 	gpsChan <- payload
 }
 
@@ -35,10 +35,11 @@ func GpsHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	for {
-		gpsChan := make(chan []byte)
+		gpsChan := make(chan *gps.Location)
 
 		go getGPS(gpsChan)
 		payload := <-gpsChan
+
 		conn.WriteJSON(payload)
 		log.Printf("Sent %v", payload)
 	}

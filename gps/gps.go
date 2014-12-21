@@ -14,7 +14,13 @@ type Location struct {
 	Speed   float32     `json:"speed"`
 	Fix     bool        `json:"fix"`
 	Coords  Coodrinates `json:"coordinates"`
-	Bearing float32     `json:"bearing:`
+	Bearing float32     `json:"bearing"`
+}
+
+func Get(rawLoc string) *Location {
+	payload := parse(rawLoc)
+
+	return payload
 }
 
 // Parses GPRMC data into Location struct.
