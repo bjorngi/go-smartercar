@@ -1,7 +1,3 @@
-// Copyright 2013 The Gorilla WebSocket Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
 package main
 
 import (
@@ -22,8 +18,9 @@ var upgrader = websocket.Upgrader{
 }
 
 func getGPS(gpsChan chan *gps.Location) {
-	time.Sleep(3000 * time.Millisecond)
+	time.Sleep(60 * time.Second)
 	payload := gps.Get("$GPRMC,194509.000,A,4042.6142,N,07400.4168,W,2.03,221.11,160412,,,A*77")
+
 	gpsChan <- payload
 }
 

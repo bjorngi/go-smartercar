@@ -19,7 +19,6 @@ type Location struct {
 
 func Get(rawLoc string) *Location {
 	payload := parse(rawLoc)
-
 	return payload
 }
 
