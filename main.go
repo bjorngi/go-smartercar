@@ -35,6 +35,7 @@ func GpsHandler(w http.ResponseWriter, r *http.Request) {
 		gpsChan := make(chan *gps.Location)
 
 		go getGPS(gpsChan)
+
 		payload := <-gpsChan
 
 		conn.WriteJSON(payload)
