@@ -38,8 +38,8 @@ func buildLocation(locArr []string) *Location {
 		Speed:   convertSpeed(locArr[7]),
 		Bearing: convertBearing(locArr[8]),
 		Coords: Coodrinates{
-			Lon: convertDeg(locArr[4], "0"+locArr[3]),
-			Lat: convertDeg(locArr[6], locArr[5]),
+			Lat: convertDeg(locArr[4], "0"+locArr[3]),
+			Lon: convertDeg(locArr[6], locArr[5]),
 		},
 	}
 	return loc

@@ -18,7 +18,7 @@ var upgrader = websocket.Upgrader{
 }
 
 func getGPS(gpsChan chan *gps.Location) {
-	time.Sleep(60 * time.Second)
+	time.Sleep(3 * time.Second)
 	payload := gps.Get("$GPRMC,194509.000,A,4042.6142,N,07400.4168,W,2.03,221.11,160412,,,A*77")
 
 	gpsChan <- payload
