@@ -2,7 +2,6 @@ package gps
 
 import (
 	"strconv"
-	"strings"
 )
 
 type Coodrinates struct {
@@ -17,15 +16,14 @@ type Location struct {
 	Bearing float32     `json:"bearing"`
 }
 
-func Get(rawLoc string) *Location {
-	payload := parse(rawLoc)
+func Get(locArr []string) *Location {
+	payload := parse(locArr)
 	return payload
 }
 
 // Parses GPRMC data into Location struct.
 // Returns Location struct with JSON converion.
-func parse(rawLoc string) *Location {
-	locArr := strings.Split(rawLoc, ",")
+func parse(locArr []string) *Location {
 	loc := buildLocation(locArr)
 	return loc
 }

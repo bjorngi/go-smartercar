@@ -1,4 +1,4 @@
-// Package main provides connection to arduino serial.
+// Package serial provides connection to arduino serial.
 package serial
 
 import (
@@ -7,7 +7,10 @@ import (
 	"log"
 )
 
-func readArduino(ch chan string) {
+// ReadArduino takes in a channel
+// Opens serial comminucation with arduino and reads data.
+// Retunrs data over channel as string.
+func ReadArduino(ch chan string) {
 	c := &goserial.Config{Name: "/dev/ttyACM3", Baud: 9600}
 
 	s, err := goserial.OpenPort(c)
@@ -17,6 +20,8 @@ func readArduino(ch chan string) {
 
 	scanner := bufio.NewScanner(s)
 	for scanner.Scan() {
-		ch <- scanner.Text()
+		text := scanner.Text()
+
+		ch <- text
 	}
 }

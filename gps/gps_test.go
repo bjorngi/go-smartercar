@@ -2,12 +2,15 @@ package gps
 
 import (
 	"fmt"
+	"strings"
 	"testing"
 )
 
-var GPRMC string = " $GPRMC,194509.000,A,4042.6142,N,07400.4168,W,2.03,221.11,160412,,,A*77"
+var gprmcString string = " $GPRMC,194509.000,A,4042.6142,N,07400.4168,W,2.03,221.11,160412,,,A*77"
 
 func TestLocationParsing(t *testing.T) {
+	GPRMC := strings.Split(gprmcString, ",")
+
 	loc := parse(GPRMC)
 	fmt.Printf("Values recieved: %#v", loc)
 
@@ -40,5 +43,4 @@ func TestConvertSpeed(t *testing.T) {
 
 // Benchmarking
 func BenchmarkParsing(*testing.B) {
-	parse(GPRMC)
 }
