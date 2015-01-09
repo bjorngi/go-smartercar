@@ -1,6 +1,7 @@
 package gps
 
 import (
+	"errors"
 	"strconv"
 )
 
@@ -16,9 +17,14 @@ type Location struct {
 	Bearing float32     `json:"bearing"`
 }
 
-func Get(locArr []string) *Location {
-	payload := parse(locArr)
-	return payload
+func Get(locArr []string) (*Location, error) {
+	if checkfix(locArr[2]) {
+		payload := parse(locArr)
+		return payload, nil
+	}
+	err := errors.New("GPS data not fixed")
+	return nil, err
+
 }
 
 // Parses GPRMC data into Location struct.

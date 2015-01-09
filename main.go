@@ -36,13 +36,15 @@ func SelectParser(input string) {
 	arr := strings.Split(input, ",")
 	switch arr[0] {
 	case "$GPRMC":
-
-		fmt.Printf("%v\n", arr[0])
-		goodData := gps.Checksum(input)
-		fmt.Printf("%v\n", goodData)
-		if goodData {
-			gpsChan <- gps.Get(arr)
-
+		if gps.Checksum(input) {
+			gpsData, err := gps.Get(arr)
+			if err != nil {
+				log.Println(err)
+			} else {
+				gpsChan <- gpsData
+			}
+		} else {
+			log.Println("Checksum failed")
 		}
 	}
 }
@@ -56,6 +58,7 @@ func GpsHandler(w http.ResponseWriter, r *http.Request) {
 
 	for {
 		gpsData := <-gpsChan
+		log.Println("Data sent")
 		conn.WriteJSON(gpsData)
 	}
 }
