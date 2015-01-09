@@ -7,7 +7,9 @@ import (
 	"encoding/hex"
 	"encoding/binary"
 )
-
+// Checksum checks if given GPS data is correct by checking the data between $ and * against 
+// the data after *. This is done with xor.
+// It returns true or false whether or not the data is correct.
 func Checksum(gpsdata string) bool {
 	
 	data := strings.Split(gpsdata, "*")
@@ -17,8 +19,8 @@ func Checksum(gpsdata string) bool {
                 checksum = checksum ^ byteArr[i]
         }
         buf := make([]byte, 2)
-        binary.LittleEndian.PutUint16(buf, uint16(checksum))
-	if hex.EncodeToString(buf)[:2] == data[1] {
+        binary.LittleEndian.PutUint16(buf, uint16(checksum))	//Not possible with uint8
+	if hex.EncodeToString(buf)[:2] == data[1] {		//Therefore we use only the first 2 numbers
 		return true
 	}
 	return false
