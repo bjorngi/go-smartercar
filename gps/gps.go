@@ -1,3 +1,5 @@
+// Package gps provides parsing of $GPRMC GPS-data and NMEA checksum checking.
+// Only retuns data on fixed GPRMC data.
 package gps
 
 import (
@@ -5,18 +7,21 @@ import (
 	"strconv"
 )
 
-type Coodrinates struct {
-	Lon float32 `json:"lon"`
-	Lat float32 `json:"lat"`
+type Coordinates struct {
+	Lon float32 `json:"lon"` // Longtitude in decimal format.
+	Lat float32 `json:"lat"` // Latitude in decial format.
 }
 
 type Location struct {
-	Speed   float32     `json:"speed"`
-	Fix     bool        `json:"fix"`
-	Coords  Coodrinates `json:"coordinates"`
-	Bearing float32     `json:"bearing"`
+	Speed   float32     `json:"speed"` // Speed in m/s.
+	Fix     bool        `json:"fix"`   // Boolean to verify gps-fix.
+	Coords  Coordinates `json:"coordinates"`
+	Bearing float32     `json:"bearing"` // Bearing in degrees.
 }
 
+// Get takes in $GPRMC data split up into string array.
+// Parses data and converting to decimal degrees.
+// Retuns Location object with all parsed infomation.
 func Get(locArr []string) (*Location, error) {
 	if checkfix(locArr[2]) {
 		payload := parse(locArr)
@@ -41,7 +46,7 @@ func buildLocation(locArr []string) *Location {
 		Fix:     checkfix(locArr[2]),
 		Speed:   convertSpeed(locArr[7]),
 		Bearing: convertBearing(locArr[8]),
-		Coords: Coodrinates{
+		Coords: Coordinates{
 			Lat: convertDeg(locArr[4], "0"+locArr[3]),
 			Lon: convertDeg(locArr[6], locArr[5]),
 		},

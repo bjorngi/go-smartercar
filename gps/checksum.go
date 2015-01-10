@@ -1,4 +1,3 @@
-// Package gps provides checksum checking for gps-data.
 package gps
 
 import (
