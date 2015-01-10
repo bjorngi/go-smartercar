@@ -2,7 +2,6 @@ package gps
 
 import (
 	"fmt"
-	"log"
 	"strings"
 )
 
@@ -16,23 +15,26 @@ func ExampleGet() {
 	// gps.Get takes []string generated from stings.Split.
 	readableData, _ := Get(gprmcSplit)
 
-	fmt.Printf("%+v\n", readableData)
-	// Output: Location object with parsed data.
+	// readableData is pointer to Location object
+	// &{Speed:1.0443223 Fix:true Coords:{Lon:-74.00695 Lat:40.710236} Bearing:221.11}
 
+	fmt.Printf("%+v\n", readableData)
 }
 
-func ExampleChecksum() {
+func ExampleChecksum_Valid() {
 	// Data recieved from GPS.
-	gprmcData := " $GPRMC,194509.000,A,4042.6142,N,07400.4168,W,2.03,221.11,160412,,,A*77"
+	gprmcData := "$GPRMC,194509.000,A,4042.6142,N,07400.4168,W,2.03,221.11,160412,,,A*77"
 
 	// Test checksum
-	if Checksum(gprmcData) {
-		log.Println("Checksum valid")
-	} else {
-		log.Println("Checksum invalid")
+	fmt.Println(Checksum(gprmcData))
+	// Output: true
+}
 
-	}
+func ExampleChecksum_Invalid() {
+	// Data recieved from GPS.
+	gprmcData := "$GPRMC,194509.000,A,4042.6142,N,07400.4168,W,2.03,221.11,160412,,,A*76"
 
-	// Output: logs state of checksum
-
+	// Test checksum
+	fmt.Println(Checksum(gprmcData))
+	// Output: false
 }
