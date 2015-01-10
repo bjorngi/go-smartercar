@@ -21,7 +21,7 @@ func ExampleGet() {
 	fmt.Printf("%+v\n", readableData)
 }
 
-func ExampleChecksum_Valid() {
+func ExampleChecksum_valid() {
 	// Data recieved from GPS.
 	gprmcData := "$GPRMC,194509.000,A,4042.6142,N,07400.4168,W,2.03,221.11,160412,,,A*77"
 
@@ -30,7 +30,7 @@ func ExampleChecksum_Valid() {
 	// Output: true
 }
 
-func ExampleChecksum_Invalid() {
+func ExampleChecksum_invalid() {
 	// Data recieved from GPS.
 	gprmcData := "$GPRMC,194509.000,A,4042.6142,N,07400.4168,W,2.03,221.11,160412,,,A*76"
 
