@@ -18,3 +18,8 @@ func ExampleGet() {
 	// Output: Location object with parsed data.
 
 }
+
+func Example() {
+	fmt.Printf("%v", "Test!")
+	// Output: Test!
+}

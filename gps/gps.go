@@ -54,6 +54,7 @@ func buildLocation(locArr []string) *Location {
 	return loc
 }
 
+// Convert bearing to float32
 func convertBearing(rawBearing string) float32 {
 	bearing, err := strconv.ParseFloat(rawBearing, 32)
 	if err != nil {
