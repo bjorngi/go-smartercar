@@ -1,3 +1,4 @@
+// Go-smartercar starts up a webserver with websockets that will in real time relay data from serialRead from arduino.
 package main
 
 import (
@@ -21,18 +22,18 @@ var upgrader = websocket.Upgrader{
 	WriteBufferSize: 1024,
 }
 
-func SerialReader() {
+func serialReader() {
 	serialChan := make(chan string)
 	go serial.ReadArduino(serialChan)
 
 	for {
 		input := <-serialChan
-		SelectParser(input)
+		selectParser(input)
 	}
 
 }
 
-func SelectParser(input string) {
+func selectParser(input string) {
 	arr := strings.Split(input, ",")
 	switch arr[0] {
 	case "$GPRMC":
@@ -49,7 +50,7 @@ func SelectParser(input string) {
 	}
 }
 
-func GpsHandler(w http.ResponseWriter, r *http.Request) {
+func gpsHandler(w http.ResponseWriter, r *http.Request) {
 	conn, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		log.Println(err)
@@ -68,10 +69,10 @@ func main() {
 
 	defer fmt.Printf("Server stopped\n")
 
-	go SerialReader()
+	go serialReader()
 
 	flag.Parse()
-	http.HandleFunc("/gps", GpsHandler)
+	http.HandleFunc("/gps", gpsHandler)
 	err := http.ListenAndServe(*addr, nil)
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
