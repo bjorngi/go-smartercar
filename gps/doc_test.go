@@ -27,10 +27,12 @@ func ExampleChecksum() {
 
 	// Test checksum
 	if Checksum(gprmcData) {
-		log.Println("Checksum correct")
+		log.Println("Checksum valid")
 	} else {
-		log.Println("Checksum failed")
+		log.Println("Checksum invalid")
 
 	}
+
+	// Output: logs state of checksum
 
 }
